@@ -17,6 +17,7 @@ def getDirections(source, destination):
         badInput = True
     else:
         src = str(sPl[u'results'][0][u'formatted_address'])
+        sID = str(sPl[u'results'][0][u'place_id'])
 
     dPl = gmaps.places(destination)
     if (str(dPl[u'status']) == "ZERO_RESULTS"):
@@ -24,9 +25,10 @@ def getDirections(source, destination):
         badInput = True
     else:
         dst = str(dPl[u'results'][0][u'formatted_address'])
+        dID = str(dPl[u'results'][0][u'place_id'])
 
     if badInput:
-        return
+        return (None, None)
 
     dirs = gmaps.directions(src, dst, departure_time=datetime.now())
     dirsInfo = dirs[0][u'legs'][0]
@@ -50,4 +52,6 @@ def getDirections(source, destination):
     print "t = " + tNew
     print "d = " + dNew
 
-getDirections(sIn, dIn)
+    return (sID, dID)
+
+(srcID, dstID) = getDirections(sIn, dIn)
